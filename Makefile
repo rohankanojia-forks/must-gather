@@ -1,4 +1,4 @@
-.PHONY: clean help test build push
+.PHONY: clean help test build push lint
 
 MUST_GATHER = gather_dev_spaces.sh
 LOGS_DIR    = must-gather
@@ -14,6 +14,7 @@ help:
 	@echo
 	@echo "Available commands:"
 	@echo "  make help   - Show this usage menu"
+	@echo "  make lint   - Run shellcheck on shell scripts"
 	@echo "  make clean  - Clear the test files"
 	@echo "  make gather - Collect must-gather (skips if exists)"
 	@echo "  make test   - Run tests against must-gather"
@@ -24,6 +25,11 @@ help:
 	@echo "  REGISTRY=$(REGISTRY)"
 	@echo "  REPO=$(REPO)"
 	@echo "  TAG=$(TAG)"
+
+lint:
+	@echo
+	@echo "Running shellcheck"
+	shellcheck *.sh
 
 clean:
 	@echo

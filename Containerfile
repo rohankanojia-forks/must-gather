@@ -1,4 +1,4 @@
-ARG OPENSHIFT_VERSION=4.18
+ARG OPENSHIFT_VERSION=4.21
 
 # Base this image on the standard OpenShift must-gather image
 FROM quay.io/openshift/origin-must-gather:${OPENSHIFT_VERSION}
