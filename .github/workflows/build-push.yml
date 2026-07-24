@@ -15,7 +15,7 @@ on:
 
 env:
   IMAGE_REGISTRY: quay.io
-  QUAY_REGISTRY_USER: rhn_support_jorbell
+  QUAY_REGISTRY_USER: che-incubator
 
 jobs:
   build-and-push:
@@ -29,7 +29,7 @@ jobs:
       - name: Prepare
         id: prep
         run: |
-          DOCKER_IMAGE=${{ env.IMAGE_REGISTRY }}/${{ env.QUAY_REGISTRY_USER }}/dev-spaces-must-gather
+          DOCKER_IMAGE=${{ env.IMAGE_REGISTRY }}/${{ env.QUAY_REGISTRY_USER }}/must-gather
           SHORTREF=${GITHUB_SHA::8}
           LATEST_TAG=",${DOCKER_IMAGE}:latest"
 

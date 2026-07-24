@@ -1,13 +1,13 @@
-# Dev Spaces Must-Gather
+# must-gather
 
-`Dev Spaces must-gather` is a tool to collect diagnostic information about the [Red Hat OpenShift Dev Spaces](https://developers.redhat.com/products/openshift-dev-spaces) (downstream of [Eclipse Che](https://eclipse.dev/che)) operator and workspace environment. It is built on top of [OpenShift must-gather](https://github.com/openshift/must-gather).
+`must-gather` is a tool to collect diagnostic information about the [Red Hat OpenShift Dev Spaces](https://developers.redhat.com/products/openshift-dev-spaces) (downstream of [Eclipse Che](https://eclipse.dev/che)) operator and workspace environment. It is built on top of [OpenShift must-gather](https://github.com/openshift/must-gather).
 
 ---
 
 ## Usage
 
 ```sh
-oc adm must-gather --image=quay.io/<your-org>/dev-spaces-must-gather:latest
+oc adm must-gather --image=quay.io/che-incubator/must-gather:latest
 ```
 
 The command above will create a local directory with a dump of the Dev Spaces state in your OpenShift cluster.
@@ -87,7 +87,7 @@ make help
 
 To push a custom image:
 ```shell
-make REGISTRY_USERNAME=<your-org> CONTAINER_IMAGE_TAG=latest push
+make push
 ```
 
 Using the latest tag is recommended during development, as it avoids caching on OpenShift nodes.
@@ -112,7 +112,7 @@ Download the latest binary from the [omc releases page](https://github.com/gmegh
    oc adm must-gather --image=<TEST_IMAGE>
    
    # Or run the script directly for local testing
-   ./gather_dev_spaces.sh
+   ./gather_eclipse_che.sh
    ```
 
 2. **Validate the output:**

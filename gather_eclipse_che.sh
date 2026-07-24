@@ -6,7 +6,7 @@ trap 'echo "Error on line $LINENO: $BASH_COMMAND" >&2' ERR
 LOGS_DIR="${LOGS_DIR:-must-gather}"
 mkdir -p "$LOGS_DIR"
 
-echo "[INFO] Starting DevSpaces must-gather..."
+echo "[INFO] Starting must-gather..."
 
 ############################################
 # 1. Collect CRDs (DevSpaces + OLM)

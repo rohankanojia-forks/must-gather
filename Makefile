@@ -1,11 +1,11 @@
 .PHONY: clean help test build push lint
 
-MUST_GATHER = gather_dev_spaces.sh
+MUST_GATHER = gather_eclipse_che.sh
 LOGS_DIR    = must-gather
 
 # Container image settings, overwrite as needed
 REGISTRY ?= quay.io
-REPO     ?= rhn_support_jorbell/dev-spaces-must-gather
+REPO     ?= che-incubator/must-gather
 TAG      ?= latest
 IMAGE    = $(REGISTRY)/$(REPO):$(TAG)
 DOCKER_OR_PODMAN := $(shell command -v podman || command -v docker)
