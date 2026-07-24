@@ -292,7 +292,7 @@ readarray -t SCC_NAMES < <(
 
 # Also collect any SCCs matching devworkspace/che pattern
 readarray -t PATTERN_SCCS < <(
-  oc get securitycontextconstraints -o name 2>/dev/null | grep -E 'devworkspace|che' || true
+  oc get securitycontextconstraints -o name 2>/dev/null | grep -E 'devworkspace|devspaces|eclipse\.che|eclipse-che' || true
 )
 
 # Merge both lists
@@ -312,10 +312,10 @@ echo "[INFO] Collecting ClusterRoles and ClusterRoleBindings..."
 
 # Collect DevSpaces/DevWorkspace-related ClusterRoles and ClusterRoleBindings
 readarray -t CLUSTER_ROLES < <(
-  oc get clusterrole -o name | grep -E 'devworkspace|devfile|che|eclipse' || true
+  oc get clusterrole -o name | grep -E 'devworkspace|devfile|devspaces|eclipse\.che|eclipse-che|web-terminal' || true
 )
 readarray -t CLUSTER_ROLE_BINDINGS < <(
-  oc get clusterrolebinding -o name | grep -E 'devworkspace|devfile|che|eclipse' || true
+  oc get clusterrolebinding -o name | grep -E 'devworkspace|devfile|devspaces|eclipse\.che|eclipse-che|web-terminal' || true
 )
 
 if [ "${#CLUSTER_ROLES[@]}" -gt 0 ]; then

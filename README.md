@@ -109,7 +109,7 @@ Download the latest binary from the [omc releases page](https://github.com/gmegh
 1. **Collect must-gather data:**
    ```shell
    # Using a test image
-   oc adm must-gather --image=<TEST_IMAGE>
+   oc adm must-gather --image=quay.io/che-incubator/must-gather:latest
    
    # Or run the script directly for local testing
    ./scripts/gather_eclipse_che.sh
@@ -121,7 +121,7 @@ Download the latest binary from the [omc releases page](https://github.com/gmegh
    ./scripts/test_must_gather.sh
    
    # Or specify a custom directory
-   LOGS_DIR=must-gather.local.<timestamp> ./scripts/test_must_gather.sh
+   LOGS_DIR=must-gather.local.20260724 ./scripts/test_must_gather.sh
    ```
 
 The test script validates that:

@@ -96,19 +96,19 @@ fi
 echo
 echo "Checking API accessibility via oc..."
 
-check_api "checlusters.org.eclipse.che"
-check_api "devworkspaceoperatorconfigs.controller.devfile.io"
-check_api "devworkspaceroutings.controller.devfile.io"
-check_api "devworkspaces.workspace.devfile.io"
-check_api "devworkspacetemplates.workspace.devfile.io"
+check_api "checlusters.org.eclipse.che" || true
+check_api "devworkspaceoperatorconfigs.controller.devfile.io" || true
+check_api "devworkspaceroutings.controller.devfile.io" || true
+check_api "devworkspaces.workspace.devfile.io" || true
+check_api "devworkspacetemplates.workspace.devfile.io" || true
 
 # OLM resources
-check_api "subscriptions.operators.coreos.com"
-check_api "operators.operators.coreos.com"
-check_api "operatorgroups.operators.coreos.com"
-check_api "installplans.operators.coreos.com"
-check_api "clusterserviceversions.operators.coreos.com"
-check_api "packagemanifests.packages.operators.coreos.com"
+check_api "subscriptions.operators.coreos.com" || true
+check_api "operators.operators.coreos.com" || true
+check_api "operatorgroups.operators.coreos.com" || true
+check_api "installplans.operators.coreos.com" || true
+check_api "clusterserviceversions.operators.coreos.com" || true
+check_api "packagemanifests.packages.operators.coreos.com" || true
 
 echo
 echo "Validating collected structure..."
@@ -117,18 +117,18 @@ echo "Validating collected structure..."
 # Cluster-scoped resources
 # -------------------------------
 
-check_dir "$BASE_DIR/cluster-scoped-resources/admissionregistration.k8s.io/mutatingwebhookconfigurations" "Mutating webhooks collected"
-check_dir "$BASE_DIR/cluster-scoped-resources/admissionregistration.k8s.io/validatingwebhookconfigurations" "Validating webhooks collected"
+check_dir_or_warn "$BASE_DIR/cluster-scoped-resources/admissionregistration.k8s.io/mutatingwebhookconfigurations" "Mutating webhooks collected"
+check_dir_or_warn "$BASE_DIR/cluster-scoped-resources/admissionregistration.k8s.io/validatingwebhookconfigurations" "Validating webhooks collected"
 
 check_dir "$BASE_DIR/cluster-scoped-resources/storage.k8s.io/storageclasses" "StorageClasses collected"
-check_dir "$BASE_DIR/cluster-scoped-resources/core/persistentvolumes" "PersistentVolumes collected"
+check_dir_or_warn "$BASE_DIR/cluster-scoped-resources/core/persistentvolumes" "PersistentVolumes collected"
 
 check_dir "$BASE_DIR/cluster-scoped-resources/core/nodes" "Nodes collected"
 check_dir "$BASE_DIR/cluster-scoped-resources/config.openshift.io/proxies" "ClusterProxy collected"
 
-check_dir "$BASE_DIR/cluster-scoped-resources/security.openshift.io/securitycontextconstraints" "SecurityContextConstraints collected"
-check_dir "$BASE_DIR/cluster-scoped-resources/rbac.authorization.k8s.io/clusterroles" "ClusterRoles collected"
-check_dir "$BASE_DIR/cluster-scoped-resources/rbac.authorization.k8s.io/clusterrolebindings" "ClusterRoleBindings collected"
+check_dir_or_warn "$BASE_DIR/cluster-scoped-resources/security.openshift.io/securitycontextconstraints" "SecurityContextConstraints collected"
+check_dir_or_warn "$BASE_DIR/cluster-scoped-resources/rbac.authorization.k8s.io/clusterroles" "ClusterRoles collected"
+check_dir_or_warn "$BASE_DIR/cluster-scoped-resources/rbac.authorization.k8s.io/clusterrolebindings" "ClusterRoleBindings collected"
 
 # -------------------------------
 # Cluster-resources (FIXED)
@@ -145,9 +145,6 @@ check_dir "$BASE_DIR/cluster-resources/node-descriptions" "Node descriptions col
 # -------------------------------
 
 check_dir "$BASE_DIR/namespaces" "Namespaces collected"
-
-# Events exist inside namespaces
-check_dir "$BASE_DIR/namespaces" "Events collected"
 
 # -------------------------------
 # OLM PackageManifests

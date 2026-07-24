@@ -1,4 +1,4 @@
-.PHONY: clean help test build push lint
+.PHONY: clean help test build push lint gather
 
 MUST_GATHER = scripts/gather_eclipse_che.sh
 LOGS_DIR    = must-gather
@@ -51,7 +51,7 @@ test: $(LOGS_DIR)
 build:
 	@echo
 	@echo "Building $(IMAGE)"
-	$(DOCKER_OR_PODMAN) build -t $(IMAGE) .
+	$(DOCKER_OR_PODMAN) build -f Containerfile -t $(IMAGE) .
 
 push: build
 	@echo
