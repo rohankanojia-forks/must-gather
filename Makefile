@@ -1,6 +1,6 @@
 .PHONY: clean help test build push lint
 
-MUST_GATHER = gather_eclipse_che.sh
+MUST_GATHER = scripts/gather_eclipse_che.sh
 LOGS_DIR    = must-gather
 
 # Container image settings, overwrite as needed
@@ -29,7 +29,7 @@ help:
 lint:
 	@echo
 	@echo "Running shellcheck"
-	shellcheck *.sh
+	shellcheck scripts/*.sh
 
 clean:
 	@echo
@@ -46,7 +46,7 @@ gather: $(LOGS_DIR)
 test: $(LOGS_DIR)
 	@echo
 	@echo "Checking test must-gather"
-	./test_must_gather.sh
+	./scripts/test_must_gather.sh
 
 build:
 	@echo

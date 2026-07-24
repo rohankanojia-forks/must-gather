@@ -112,16 +112,16 @@ Download the latest binary from the [omc releases page](https://github.com/gmegh
    oc adm must-gather --image=<TEST_IMAGE>
    
    # Or run the script directly for local testing
-   ./gather_eclipse_che.sh
+   ./scripts/gather_eclipse_che.sh
    ```
 
 2. **Validate the output:**
    ```shell
    # Test the collected data
-   ./test_must_gather.sh
+   ./scripts/test_must_gather.sh
    
    # Or specify a custom directory
-   LOGS_DIR=must-gather.local.<timestamp> ./test_must_gather.sh
+   LOGS_DIR=must-gather.local.<timestamp> ./scripts/test_must_gather.sh
    ```
 
 The test script validates that:
