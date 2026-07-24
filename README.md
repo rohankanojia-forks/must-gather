@@ -1,6 +1,8 @@
 # must-gather
 
-`must-gather` is a tool to collect diagnostic information about the [Red Hat OpenShift Dev Spaces](https://developers.redhat.com/products/openshift-dev-spaces) (downstream of [Eclipse Che](https://eclipse.dev/che)) operator and workspace environment. It is built on top of [OpenShift must-gather](https://github.com/openshift/must-gather).
+`must-gather` is a tool to collect diagnostic information about the [Eclipse Che](https://eclipse.dev/che) operator and DevWorkspace-based development environments on OpenShift and Kubernetes. It is built on top of [OpenShift must-gather](https://github.com/openshift/must-gather).
+
+It also supports [Red Hat OpenShift Dev Spaces](https://developers.redhat.com/products/openshift-dev-spaces), the downstream product based on Eclipse Che.
 
 ---
 
@@ -10,9 +12,9 @@
 oc adm must-gather --image=quay.io/che-incubator/must-gather:latest
 ```
 
-The command above will create a local directory with a dump of the Dev Spaces state in your OpenShift cluster.
+The command above will create a local directory with a dump of the Eclipse Che / DevWorkspace state in your cluster.
 
-> ⚠️ This must-gather focuses on Dev Spaces and related components. To collect full cluster data, run oc adm must-gather without specifying a custom image.
+> ⚠️ This must-gather focuses on Eclipse Che, DevWorkspace, and related components. To collect full cluster data, run `oc adm must-gather` without specifying a custom image.
 
 ## Prerequisites
 
@@ -30,15 +32,15 @@ oc auth can-i '*' '*' --all-namespaces
 
 This must-gather collects both operator-specific and cluster-level diagnostic data to enable effective troubleshooting.
 
-### Dev Spaces & DevWorkspace resources
-- All Dev Spaces and DevWorkspace CRDs and their definitions
-- All Dev Spaces-related custom resources across namespaces
+### Eclipse Che & DevWorkspace resources
+- Eclipse Che and DevWorkspace CRDs and their definitions
+- CheCluster, DevWorkspace, and related custom resources across namespaces
 - Devfile-related resources
 - Workspace namespaces and all objects within them (pods, PVCs, configmaps, etc.)
   - No secrets are collected
 
 ### Operator and OLM data
-- Dev Spaces and DevWorkspace operator namespaces (including pods, logs, and events)
+- Eclipse Che and DevWorkspace operator namespaces (including pods, logs, and events)
 - Subscription, ClusterServiceVersion (CSV), and InstallPlan resources
 - Operator logs and controller state
 
@@ -73,7 +75,8 @@ This must-gather is useful for diagnosing:
 - **Secrets:** Metadata is collected, but data fields are redacted by `oc adm inspect` (only byte length shown, not actual values).
 - Some rapidly changing resources (e.g., logs, events) may differ slightly between runs.
 - The scope is intentionally expanded beyond operator resources to include cluster-level diagnostics required for root cause analysis.
-- **Dynamic detection:** No hardcoded namespaces - the tool automatically discovers operator and workspace namespaces regardless of installation method.
+- **Dynamic detection:** No hardcoded namespaces — the tool automatically discovers operator and workspace namespaces regardless of installation method.
+- **Downstream support:** The same collection logic applies on clusters running OpenShift Dev Spaces.
 
 ## Development
 
@@ -96,9 +99,9 @@ Using the latest tag is recommended during development, as it avoids caching on 
 
 ### Prerequisites
 
-- An OpenShift cluster with the Dev Spaces operator installed
+- An OpenShift or Kubernetes cluster with Eclipse Che (or OpenShift Dev Spaces) installed
 - `oc` CLI configured and logged in
-- **`omc` (OpenShift Must Gather)** - Required for validating must-gather output
+- **`omc` (OpenShift Must Gather)** — required for validating must-gather output
 
 #### Installing omc
 
