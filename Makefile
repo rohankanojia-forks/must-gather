@@ -49,6 +49,7 @@ test: $(LOGS_DIR)
 	./scripts/test_must_gather.sh
 
 build:
+	@test -n "$(DOCKER_OR_PODMAN)" || { echo "Error: neither podman nor docker found in PATH. Install one to build the container image." >&2; exit 1; }
 	@echo
 	@echo "Building $(IMAGE)"
 	$(DOCKER_OR_PODMAN) build -f Containerfile -t $(IMAGE) .
