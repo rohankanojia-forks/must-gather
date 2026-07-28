@@ -14,17 +14,21 @@ echo "[INFO] Starting must-gather..."
 echo "[INFO] Collecting CRDs..."
 
 readarray -t CRDS < <(
-  oc get crd -o name | grep -E 'devworkspace|devfile|eclipse\.che'
+  oc get crd -o name | grep -E 'devworkspace|devfile|eclipse\.che' || true
+)
+
+CRDS_TO_INSPECT=("${CRDS[@]}")
+CRDS_TO_INSPECT+=(
+  customresourcedefinition/subscriptions.operators.coreos.com
+  customresourcedefinition/operators.operators.coreos.com
+  customresourcedefinition/operatorgroups.operators.coreos.com
+  customresourcedefinition/installplans.operators.coreos.com
+  customresourcedefinition/clusterserviceversions.operators.coreos.com
+  customresourcedefinition/catalogsources.operators.coreos.com
 )
 
 oc adm inspect \
-  "${CRDS[@]}" \
-  customresourcedefinition/subscriptions.operators.coreos.com \
-  customresourcedefinition/operators.operators.coreos.com \
-  customresourcedefinition/operatorgroups.operators.coreos.com \
-  customresourcedefinition/installplans.operators.coreos.com \
-  customresourcedefinition/clusterserviceversions.operators.coreos.com \
-  customresourcedefinition/catalogsources.operators.coreos.com \
+  "${CRDS_TO_INSPECT[@]}" \
   --dest-dir="$LOGS_DIR" || true
 
 ############################################
@@ -33,7 +37,7 @@ oc adm inspect \
 echo "[INFO] Collecting DevSpaces resources..."
 
 readarray -t API_RESOURCES < <(
-  oc api-resources -o name | grep -E 'devworkspace|devfile|eclipse\.che'
+  oc api-resources -o name | grep -E 'devworkspace|devfile|eclipse\.che' || true
 )
 
 # Collect resources sequentially (one at a time) for better resilience.
@@ -174,7 +178,10 @@ oc get packagemanifests.packages.operators.coreos.com -o yaml \
 echo "[INFO] Collecting workspace namespaces..."
 
 readarray -t WS_NAMESPACES < <(
-  oc get ns -l 'app.kubernetes.io/component=workspaces-namespace' -o name
+  {
+    oc get ns -l 'app.kubernetes.io/component=workspaces-namespace' -o name 2>/dev/null || true
+    oc get devworkspaces.workspace.devfile.io -A -o jsonpath='{range .items[*]}{"namespace/"}{.metadata.namespace}{"\n"}{end}' 2>/dev/null || true
+  } | sort -u
 )
 
 if [ "${#WS_NAMESPACES[@]}" -gt 0 ]; then

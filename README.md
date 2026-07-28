@@ -101,11 +101,7 @@ Using the latest tag is recommended during development, as it avoids caching on 
 
 - An OpenShift or Kubernetes cluster with Eclipse Che (or OpenShift Dev Spaces) installed
 - `oc` CLI configured and logged in
-- **`omc` (OpenShift Must Gather)** — required for validating must-gather output
-
-#### Installing omc
-
-Download the latest binary from the [omc releases page](https://github.com/gmeghnag/omc/releases).
+- `jq` (used by the gather and test scripts)
 
 ### Running tests
 
@@ -128,6 +124,5 @@ Download the latest binary from the [omc releases page](https://github.com/gmegh
    ```
 
 The test script validates that:
-- The must-gather archive is readable by `omc`
 - All expected CRD resources are present and queryable
 - All additional collected files (webhooks, storage, nodes, events, etc.) exist and are not empty
