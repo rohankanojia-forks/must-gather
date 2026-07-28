@@ -1,0 +1,58 @@
+.PHONY: clean help test build push lint gather
+
+MUST_GATHER = scripts/gather_eclipse_che.sh
+LOGS_DIR    = must-gather
+
+# Container image settings, overwrite as needed
+REGISTRY ?= quay.io
+REPO     ?= che-incubator/must-gather
+TAG      ?= latest
+IMAGE    = $(REGISTRY)/$(REPO):$(TAG)
+DOCKER_OR_PODMAN := $(shell command -v podman || command -v docker)
+
+help:
+	@echo
+	@echo "Available commands:"
+	@echo "  make help   - Show this usage menu"
+	@echo "  make lint   - Run shellcheck on shell scripts"
+	@echo "  make clean  - Clear the test files"
+	@echo "  make gather - Collect must-gather"
+	@echo "  make test   - Collect must-gather and run validation"
+	@echo "  make build  - Build container image"
+	@echo "  make push   - Push container image"
+	@echo
+	@echo "Variables (override with make VAR=value):"
+	@echo "  REGISTRY=$(REGISTRY)"
+	@echo "  REPO=$(REPO)"
+	@echo "  TAG=$(TAG)"
+
+lint:
+	@echo
+	@echo "Running shellcheck"
+	shellcheck scripts/*.sh
+
+clean:
+	@echo
+	@echo "Cleaning test must-gather"
+	rm -rf $(LOGS_DIR)
+
+gather:
+	@echo
+	@echo "Collecting test must-gather"
+	./$(MUST_GATHER)
+
+test: gather
+	@echo
+	@echo "Checking test must-gather"
+	./scripts/test_must_gather.sh
+
+build:
+	@test -n "$(DOCKER_OR_PODMAN)" || { echo "Error: neither podman nor docker found in PATH. Install one to build the container image." >&2; exit 1; }
+	@echo
+	@echo "Building $(IMAGE)"
+	$(DOCKER_OR_PODMAN) build -f Containerfile -t $(IMAGE) .
+
+push: build
+	@echo
+	@echo "Pushing $(IMAGE)"
+	$(DOCKER_OR_PODMAN) push $(IMAGE)
