@@ -16,8 +16,8 @@ help:
 	@echo "  make help   - Show this usage menu"
 	@echo "  make lint   - Run shellcheck on shell scripts"
 	@echo "  make clean  - Clear the test files"
-	@echo "  make gather - Collect must-gather (skips if exists)"
-	@echo "  make test   - Run tests against must-gather"
+	@echo "  make gather - Collect must-gather"
+	@echo "  make test   - Collect must-gather and run validation"
 	@echo "  make build  - Build container image"
 	@echo "  make push   - Push container image"
 	@echo
@@ -36,14 +36,12 @@ clean:
 	@echo "Cleaning test must-gather"
 	rm -rf $(LOGS_DIR)
 
-$(LOGS_DIR): $(MUST_GATHER)
+gather:
 	@echo
 	@echo "Collecting test must-gather"
 	./$(MUST_GATHER)
 
-gather: $(LOGS_DIR)
-
-test: $(LOGS_DIR)
+test: gather
 	@echo
 	@echo "Checking test must-gather"
 	./scripts/test_must_gather.sh
